@@ -1,0 +1,64 @@
+﻿@using Arrow.Models.ViewModels
+
+@model MapViewModel
+@{
+    ViewData["Title"] = "Parkering Overblik";
+}
+<h2>@ViewData["Title"]</h2>
+<style>
+    /* Always set the map height explicitly to define the size of the div
+      * element that contains the map. */
+    #map {
+        height: 800px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div id="map" class="map"></div>
+        <script>
+            function initMap() {
+                var uluru = { lat: @Model.Parkingspots.First().ax, lng: @Model.Parkingspots.First().ay};
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 17,
+                    center: uluru
+                });
+                var eachArea = new Array();
+                var area;
+                @foreach (Parkingspot p in Model.Parkingspots)
+                {
+                    <text>
+                        myTrip = [
+                            new google.maps.LatLng(@p.ax, @p.ay),
+                            new google.maps.LatLng(@p.bx, @p.by),
+                            new google.maps.LatLng(@p.cx, @p.cy),
+                            new google.maps.LatLng(@p.dx, @p.dy)
+                        ];
+                        area = new google.maps.Polygon({
+
+                            path: myTrip,
+
+                            strokeColor: @p.occupied== 1 ? "#22dc1f" : "#eca7a7",
+
+                            strokeOpacity: 0.8,
+
+                            strokeWeight: 2,
+
+                            fillColor: @p.occupied== 1 ? "#04ff00" : "#ff5151",
+
+                            fillOpacity: 0.4
+
+                        });
+                        area.setMap(map);
+                    </text>
+                }
+
+            }
+        </script>
+        <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8HBkBu4ecK8YU4z8zcfJ_cqQPEE3s0Gw&callback=initMap">
+        </script>
+    </div>
+</div>
+
+

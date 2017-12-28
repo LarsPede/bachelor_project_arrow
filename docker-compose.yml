@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  arrow:
+    image: arrow
+    build:
+      context: ./Arrow
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
